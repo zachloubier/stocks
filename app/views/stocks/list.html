@@ -1,0 +1,18 @@
+<h2>Stock Listing</h2>
+<div class="stocks" ng-repeat="stock in stocks">
+	<div class="row">
+		<div class="small-12 column panel">
+			<ul class="stock-info">
+				<li>
+					<span>Name: </span>
+					<span>{{ stock.name }}</span>
+				</li>
+				<li>
+					<span>Price: </span>
+					<span>{{ stock.price }}</span>
+				</li>
+			</ul>
+			<a href="#/stocks/{{$index}}">View More</a>
+		</div>
+	</div>
+</div>
