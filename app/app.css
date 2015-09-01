@@ -5334,7 +5334,7 @@ dl {
   margin-bottom: 1.25rem; }
 
 ul {
-  margin-left: 1.1rem; }
+  margin-left: 0; }
   ul.no-bullet {
     margin-left: 0; }
     ul.no-bullet li ul,
@@ -5356,15 +5356,15 @@ ul.disc li ul {
 
 ul.square {
   list-style-type: square;
-  margin-left: 1.1rem; }
+  margin-left: 0; }
 
 ul.circle {
   list-style-type: circle;
-  margin-left: 1.1rem; }
+  margin-left: 0; }
 
 ul.disc {
   list-style-type: disc;
-  margin-left: 1.1rem; }
+  margin-left: 0; }
 
 ul.no-bullet {
   list-style: none; }

@@ -4,22 +4,18 @@ app.factory('stocks', ['$http', function($http) {
 				"W",
 				"FIT"
 			],
-			query = "select * from yahoo.finance.quotes where symbol IN(\"YHOO\",\"AAPL\")",
+			query = "select * from yahoo.finance.quotes where symbol IN(\"" + symbols.join('","') + "\")",
 			args = "&format=json&env=http://datatables.org/alltables.env",
 			url = endPoint + encodeURIComponent(query) + args;
 
-	return $http.get(url)
-	.success(function(_data) {
-		return _data;
-	})
-	.error(function(_data) {
-		return _data;
-	});
-
-	// return $http.get('http://localhost:8000/app/components/symbols.json')
-	// 	.success(function(data) {
-	// 	})
-	// 	.error(function(data) {
-	// 		return data;
-	// 	});
-}])
+	// return $http.get(url)
+	// .success(function(data) {
+	// 	return data;
+	// })
+	// .error(function(data) {
+	// 	return data;
+	// });
+	
+	// Used for no internet access only
+	return $http.get('http://localhost:8000/app/components/stocks.json');
+}]);
