@@ -2,17 +2,22 @@
 <div class="stocks" ng-repeat="stock in stocks">
 	<div class="row">
 		<div class="small-12 column panel">
+			<h3 class="stock-symbol">{{ stock.symbol }}</h3>
 			<ul class="stock-info">
 				<li>
 					<span>Name: </span>
-					<span>{{ stock.name }}</span>
+					<span>{{ stock.Name }}</span>
 				</li>
 				<li>
-					<span>Price: </span>
-					<span>{{ stock.price }}</span>
+					<span>Current Price: </span>
+					<span>{{ stock.LastTradePriceOnly }}</span>
+				</li>
+				<li>
+					<span>Today Change: </span>
+					<span class="{{ (stock.Change) > 0? 'inc' : 'dec' }}">{{ stock.Change }}</span>
 				</li>
 			</ul>
-			<a href="#/stocks/{{$index}}">View More</a>
+			<a href="#/stocks/{{ stock.symbol }}">View More</a>
 		</div>
 	</div>
 </div>
