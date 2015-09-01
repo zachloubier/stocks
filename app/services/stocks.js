@@ -8,14 +8,13 @@ app.factory('stocks', ['$http', function($http) {
 			args = "&format=json&env=http://datatables.org/alltables.env",
 			url = endPoint + encodeURIComponent(query) + args;
 
-	// return $http.get(url)
-	// .success(function(data) {
-	// 	return data;
-	// })
-	// .error(function(data) {
-	// 	return data;
-	// });
-	
-	// Used for no internet access only
 	return $http.get('http://localhost:8000/app/components/stocks.json');
+
+	return $http.get(url)
+	.success(function(data) {
+		return data;
+	})
+	.error(function(data) {
+		return data;
+	});
 }]);
