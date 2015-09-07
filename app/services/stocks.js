@@ -10,11 +10,11 @@ app.factory('stocks', ['$http', function($http) {
 
 	return $http.get('http://localhost:8000/app/components/stocks.json');
 
-	return $http.get(url)
-	.success(function(data) {
-		return data;
-	})
-	.error(function(data) {
-		return data;
-	});
+	// return $http.get(url)
+	// .success(function(data) {
+	// 	return data;
+	// })
+	// .error(function(data) {
+	// 	return data;
+	// });
 }]);

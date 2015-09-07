@@ -6,11 +6,11 @@ var app = angular.module('Stocks', ['ngRoute']);
 app.config(function($routeProvider) {
   $routeProvider.when('/', {
   	controller: 'HomeController',
-  	templateUrl: 'views/stocks/list.html'
+  	templateUrl: 'views/home/home.html'
   })
   .when('/stocks/:id', {
   	controller: 'StocksController',
-  	templateUrl: 'views/stocks/view.html'
+  	templateUrl: 'views/stocks/stock.html'
   })
-  .otherwise({redirectTo: '/stocks'});
+  .otherwise({redirectTo: '/'});
 });

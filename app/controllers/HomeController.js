@@ -6,5 +6,7 @@ app.controller('HomeController', ['$scope', 'stocks', function($scope, stocks) {
 
 		// Used for no internet access only
 		$scope.stocks = data;
+
+		console.log(data);
 	});
 }]);
