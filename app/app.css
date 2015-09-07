@@ -6284,3 +6284,21 @@ th.hide-for-touch {
 
 ul {
   list-style: none; }
+
+.stock-info li span:first-of-type {
+  font-weight: bold; }
+
+.dec {
+  color: red; }
+
+.inc {
+  color: green; }
+
+#page {
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem; }
+
+.stock-list .stock {
+  border-bottom: 1px dotted #78AF00;
+  padding-top: 0.9375rem;
+  padding-bottom: 0.9375rem; }

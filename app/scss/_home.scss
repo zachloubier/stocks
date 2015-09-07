@@ -1,0 +1,11 @@
+.stock-list {
+	.stock {
+		border-bottom: 1px dotted $primary-color;
+		padding-top: $column-gutter/2;
+		padding-bottom: $column-gutter/2;
+
+		.stock-symbol {
+
+		}
+	}
+}

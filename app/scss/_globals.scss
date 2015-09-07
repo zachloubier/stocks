@@ -1,3 +1,21 @@
 ul {
 	list-style: none;
 }
+
+.stock-info {
+	li {
+		span {
+			&:first-of-type {
+				font-weight: $font-weight-bold;
+			}
+		}
+	}
+}
+
+.dec {
+	color: red;
+}
+
+.inc {
+	color: green;
+}
