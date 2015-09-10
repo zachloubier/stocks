@@ -1,0 +1,20 @@
+<div class="row">
+	<div class="small-12 column stock">
+		<h3 class="stock-symbol">{{ info.symbol }}</h3>
+		<ul class="stock-info">
+			<li>
+				<span>Name: </span>
+				<span>{{ info.Name }}</span>
+			</li>
+			<li>
+				<span>Current Price: </span>
+				<span>{{ info.LastTradePriceOnly }}</span>
+			</li>
+			<li>
+				<span>Today Change: </span>
+				<span class="{{ (info.Change) > 0? 'inc' : 'dec' }}">{{ info.Change }}</span>
+			</li>
+		</ul>
+		<a href="#/stocks/{{ info.symbol }}">View More</a>
+	</div>
+</div>
