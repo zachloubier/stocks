@@ -1,10 +1,10 @@
-app.controller('HomeController', ['$scope', 'stocks', function($scope, stocks) {
-	stocks.success(function(data) {
-		// if (data.query.count > 0) {
-			// $scope.stocks = data.query.results.quote;
-		// }
-
-		// Used for no internet access only
-		$scope.stocks = data;
+app.controller('HomeController', ['$scope', '$http', 'stocks', function($scope, $http, stocks) {
+	var symbols = $http.get('http://localhost:8000/app/components/symbols.json');
+	symbols.success(function(data) {
+		stocks(data).success(function(data) {
+			if (data.query.count > 0) {
+				$scope.stocks = data.query.results.quote;
+			}
+		});
 	});
 }]);
