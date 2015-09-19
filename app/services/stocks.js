@@ -13,12 +13,12 @@ app.factory('stocks', ['$http', function($http) {
 				url = endPoint + encodeURIComponent(query) + args;
 
 		return $http.get(url)
-		.success(function(data) {
-			return data;
-		})
-		.error(function(data) {
-			return data;
-		});
+			.success(function(data) {
+				return data;
+			})
+			.error(function(data) {
+				return data;
+			});
 	}
 
 }]);
