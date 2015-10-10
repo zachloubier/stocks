@@ -1,3 +1,15 @@
-<div class="stock-list" ng-repeat="stock in stocks">
-	<stock-info info="stock"></stock-info>
-</div>
+<main ng-controller="HomeController">
+  <form ng-submit="addStock()">
+    <div class="row collapse">
+      <div class="small-8 column">
+        <input type="text" name="symbol" placeholder="Symbol" ng-model="symbol" />
+      </div>
+      <div class="small-4 column">
+        <button type="submit" class="postfix expand button">Add Stock</button>
+      </div>
+ 	 	</div>
+  </form>
+  <div class="stock-list" ng-repeat="stock in stocks">
+      <stock-info info="stock"></stock-info>
+  </div>
+</main>
