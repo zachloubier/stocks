@@ -2,6 +2,12 @@ module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
+    execute: {
+      target: {
+        src: ['Server.js']
+      }
+    },
+
     sass: {
       options: {
         includePaths: ['app/bower_components/foundation/scss']
@@ -20,6 +26,11 @@ module.exports = function (grunt) {
     watch: {
       grunt: {files: ['Gruntfile.js']},
 
+      // scripts: {
+      //   files: ['Server.js'],
+      //   tasks: ['execute']
+      // },
+
       sass: {
         files: 'app/scss/**/*.scss',
         tasks: ['sass']
@@ -32,6 +43,8 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-execute');
+  // grunt.loadNpmTasks('grunt-express');
 
   grunt.registerTask('build', ['sass']);
   grunt.registerTask('default', ['build', 'watch']);
