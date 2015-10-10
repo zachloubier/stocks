@@ -1,18 +1,21 @@
 app.controller('HomeController', ['$scope', '$http', 'stocks', function($scope, $http, stocks) {
-	$scope.stocks = [
-		{
-			symbol: "W",
-			price: "32.43",
-			open: "43.12",
-			close: "31.43"
-		},
-		{
-			symbol: "FIT",
-			price: "38.43",
-			open: "41.12",
-			close: "33.43"
-		},
-	];
+	stocks.getStocks().success(function(data) {
+		$scope.stocks = data;
+	});
+	// $scope.stocks = [
+	// 	{
+	// 		symbol: "W",
+	// 		price: "32.43",
+	// 		open: "43.12",
+	// 		close: "31.43"
+	// 	},
+	// 	{
+	// 		symbol: "FIT",
+	// 		price: "38.43",
+	// 		open: "41.12",
+	// 		close: "33.43"
+	// 	},
+	// ];
 
 	// var symbols = $http.get('http://localhost:8000/app/components/symbols.json');
 	// var dbStock = symbols.success(function(data) {
