@@ -54,6 +54,18 @@ app.get('/', function(req, res) {
 	res.sendfile('app/index.html');
 });
 
+app.param('stock', function(req, res, next, symbol) {
+	connection.query("SELECT * FROM stocks WHERE symbol = '" + symbol + "'", function(err, row) {
+		if (err) throw err;
+		if (!row) {
+			return next(new Error('Can\'t find stock'));
+		}
+		
+		req.stock = row[0];
+		return next();
+	});
+})
+
 app.get('/stocks', function(req, res) {
 	connection.query("SELECT * from stocks", function(err, rows) {
 		if (err) throw err;
@@ -62,14 +74,8 @@ app.get('/stocks', function(req, res) {
 	});
 });
 
-app.get('/stocks/:symbol', function(req, res) {
-	console.log(req);
-
-	connection.query("SELECT * FROM stocks WHERE symbol = '" + req.symbol + "'", function(err, row) {
-		if (err) throw err;
-		
-		res.json(row);
-	});
+app.get('/stocks/:stock', function(req, res) {
+	res.json(req.stock);
 });
 
 app.post('/stocks', function(req, res) {

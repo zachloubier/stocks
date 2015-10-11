@@ -13,9 +13,15 @@ app.config(function($routeProvider) {
       }]
     }
   })
-  .when('/stocks/:id', {
+  .when('/stocks/:symbol', {
   	controller: 'StocksController',
-  	templateUrl: 'views/stocks/stock.html'
+  	templateUrl: 'views/stocks/stock.html',
+    // resolve: {
+    //   postPromise: ['$routeParams', 'stocks', function($routeParams, stocks) {
+    //     console.log($routeParams);
+    //     return stocks.get($routeParams.symbol)
+    //   }]
+    // }
   })
   .otherwise({
   	redirectTo: '/'

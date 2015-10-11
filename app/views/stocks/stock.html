@@ -1,11 +1,11 @@
 <main ng-controller="StocksController">
 	<h1>
-		{{ stock.Name }}
+		{{ stock.name }}
 		<small>({{ stock.symbol }})</small>
 	</h1>
 	<div class="ticker">
-		<span class="current-price">{{ stock.LastTradePriceOnly }}</span>
-		<span class="current-change {{ (stock.Change) > 0? 'inc' : 'dec' }}">{{ stock.Change }}</span>
+		<span class="current-price">{{ stock.price }}</span>
+		<span class="current-change {{ (stock.Change) > 0? 'inc' : 'dec' }}">{{ stock.Change }}</span>x
 	</div>
 	<div class="days-info">
 		<h4>Today</h4>

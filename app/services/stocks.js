@@ -3,7 +3,6 @@ app.factory('stocks', ['$http', function($http) {
 		stocks: [],
 		getAll: function() {
 			var self = this;
-			var response;
 			return $http.get('http://localhost:3000/stocks')
 				.success(function(data) {
 					angular.copy(data, self.stocks);
@@ -12,23 +11,14 @@ app.factory('stocks', ['$http', function($http) {
 				.error(function(data) {
 					return data;
 				});
-			// 	var url;
-			// 	if (symbols.constructor === Array) {
-			// 		url = 'http://localhost:3000/getStocks?symbols=' + symbols.join(',');
-			// 	} else {
-			// 		url = 'http://localhost:3000/getStock?symbol=' + symbol;
-			// 	}
+		},
 
-			// 	response = $http.get(url)
-			// 		.success(function(data) {
-			// 			return data;
-			// 		})
-			// 		.error(function(data) {
-			// 			return data;
-			// 		});
-			// }
-
-			return response;
+		get: function(symbol) {
+			var self = this;
+			return $http.get('http://localhost:3000/stocks/' + symbol)
+				.success(function(data) {
+					return data;
+				});
 		},
 
 		create: function(data) {
