@@ -17,7 +17,7 @@ app.controller('HomeController', ['$scope', '$http', 'stocks', function($scope, 
 			close: "45.43"
 		}
 
-		stocks.add(stock).success(function(data) {
+		stocks.create(stock).success(function(data) {
 			console.log(data);
 			$scope.newId = data;
 			$scope.stocks.push(stock);

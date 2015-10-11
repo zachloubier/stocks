@@ -1,7 +1,7 @@
 app.factory('stocks', ['$http', function($http) {
 	return {
 		stocks: [],
-		getAll: function(symbols) {
+		getAll: function() {
 			var self = this;
 			var response;
 			return $http.get('http://localhost:3000/stocks')
@@ -31,10 +31,11 @@ app.factory('stocks', ['$http', function($http) {
 			return response;
 		},
 
-		add: function(data) {
-			return $http.post('http://localhost:3000/addStock', data)
+		create: function(data) {
+			var self = this;
+			return $http.post('http://localhost:3000/stocks', data)
 				.success(function(data) {
-					return data;
+					self.stocks.push(data);
 				})
 				.error(function(data) {
 					return data;
