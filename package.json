@@ -26,7 +26,8 @@
     "mysql": "~2.5.0",
     "node-sass": "~0.7.0",
     "protractor": "^2.1.0",
-    "shelljs": "^0.2.6"
+    "shelljs": "^0.2.6",
+    "when": "^3.7.3"
   },
   "scripts": {
     "postinstall": "bower install",
