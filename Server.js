@@ -54,15 +54,25 @@ app.get('/', function(req, res) {
 	res.sendfile('app/index.html');
 });
 
-app.get('/getStocks', function(req, res) {
+app.get('/stocks', function(req, res) {
 	connection.query("SELECT * from stocks", function(err, rows) {
 		if (err) throw err;
 		
-		res.end(JSON.stringify(rows));
+		res.json(rows);
 	});
 });
 
-app.post('/addStock', function(req, res) {
+app.get('/stocks/:symbol', function(req, res) {
+	console.log(req);
+
+	connection.query("SELECT * FROM stocks WHERE symbol = '" + req.symbol + "'", function(err, row) {
+		if (err) throw err;
+		
+		res.json(row);
+	});
+});
+
+app.post('/stocks', function(req, res) {
 	// @todo add data cleaning
 	console.log(req.body);
 	// console.log(res);
