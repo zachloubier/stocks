@@ -1,28 +1,30 @@
-<h1>
-	{{ stock.Name }}
-	<small>({{ stock.symbol }})</small>
-</h1>
-<div class="ticker">
-	<span class="current-price">{{ stock.LastTradePriceOnly }}</span>
-	<span class="current-change {{ (stock.Change) > 0? 'inc' : 'dec' }}">{{ stock.Change }}</span>
-</div>
-<div class="days-info">
-	<h4>Today</h4>
-	<ul class="stock-info">
-		<li><span>Day High: </span><span>{{ stock.DaysHigh }}</span></li>
-		<li><span>Day Low: </span><span>{{ stock.DaysLow }}</span></li>
-		<li><span>Open: </span><span>{{ stock.Open }}</span></li>
-		<li><span>Previous Close: </span><span>{{ stock.PreviousClose }}</span></li>
-		<li><span>Ask: </span><span>{{ stock.Ask }}</span></li>
-	</ul>
-</div>
-<div class="general-info">
-	<h4>General Info</h4>
-	<ul class="stock-info">
-		<li><span>Stock Exchange: </span><span>{{ stock.StockExchange }}</span></li>
-		<li><span>Market Cap: </span><span>{{ stock.MarketCapitalization }}</span></li>
-		<li><span>EBITDA: </span><span>{{ stock.EBITDA }}</span></li>
-		<li><span>Book Value: </span><span>{{ stock.BookValue }}</span></li>
-		<li><span>EPS: </span><span>{{ stock.EarningsShare }}</span></li>
-	</ul>
-</div>
+<main ng-controller="StocksController">
+	<h1>
+		{{ stock.Name }}
+		<small>({{ stock.symbol }})</small>
+	</h1>
+	<div class="ticker">
+		<span class="current-price">{{ stock.LastTradePriceOnly }}</span>
+		<span class="current-change {{ (stock.Change) > 0? 'inc' : 'dec' }}">{{ stock.Change }}</span>
+	</div>
+	<div class="days-info">
+		<h4>Today</h4>
+		<ul class="stock-info">
+			<li><span>Day High: </span><span>{{ stock.DaysHigh }}</span></li>
+			<li><span>Day Low: </span><span>{{ stock.DaysLow }}</span></li>
+			<li><span>Open: </span><span>{{ stock.Open }}</span></li>
+			<li><span>Previous Close: </span><span>{{ stock.PreviousClose }}</span></li>
+			<li><span>Ask: </span><span>{{ stock.Ask }}</span></li>
+		</ul>
+	</div>
+	<div class="general-info">
+		<h4>General Info</h4>
+		<ul class="stock-info">
+			<li><span>Stock Exchange: </span><span>{{ stock.StockExchange }}</span></li>
+			<li><span>Market Cap: </span><span>{{ stock.MarketCapitalization }}</span></li>
+			<li><span>EBITDA: </span><span>{{ stock.EBITDA }}</span></li>
+			<li><span>Book Value: </span><span>{{ stock.BookValue }}</span></li>
+			<li><span>EPS: </span><span>{{ stock.EarningsShare }}</span></li>
+		</ul>
+	</div>
+</main>
