@@ -1,24 +1,45 @@
 app.factory('stocks', ['$http', function($http) {
-	return function(symbol) {
-		var symbols;
-		if (symbol.constructor === Array) {
-			symbols = symbol.join('","');
-		} else {
-			symbols = symbol;
+	return {
+		stocks: [],
+		getAll: function(symbols) {
+			var self = this;
+			var response;
+			return $http.get('http://localhost:3000/stocks')
+				.success(function(data) {
+					angular.copy(data, self.stocks);
+					// return data;
+				})
+				.error(function(data) {
+					return data;
+				});
+			// 	var url;
+			// 	if (symbols.constructor === Array) {
+			// 		url = 'http://localhost:3000/getStocks?symbols=' + symbols.join(',');
+			// 	} else {
+			// 		url = 'http://localhost:3000/getStock?symbol=' + symbol;
+			// 	}
+
+			// 	response = $http.get(url)
+			// 		.success(function(data) {
+			// 			return data;
+			// 		})
+			// 		.error(function(data) {
+			// 			return data;
+			// 		});
+			// }
+
+			return response;
+		},
+
+		add: function(data) {
+			return $http.post('http://localhost:3000/addStock', data)
+				.success(function(data) {
+					return data;
+				})
+				.error(function(data) {
+					return data;
+				})
 		}
-
-		var endPoint = 'https://query.yahooapis.com/v1/public/yql?q=',
-				query = "select * from yahoo.finance.quotes where symbol IN(\"" + symbols + "\")",
-				args = "&format=json&env=http://datatables.org/alltables.env",
-				url = endPoint + encodeURIComponent(query) + args;
-
-		return $http.get(url)
-			.success(function(data) {
-				return data;
-			})
-			.error(function(data) {
-				return data;
-			});
 	}
 
 }]);
