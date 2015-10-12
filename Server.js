@@ -3,6 +3,7 @@ var mysql = require("mysql");
 var app = express();
 var bodyParser = require('body-parser');
 var crypto = require('crypto');
+var Promise = require('bluebird');
 
 //Configure MySQL parameters
 var connection = mysql.createConnection({
@@ -22,18 +23,20 @@ connection.connect(function(error){
 
 	var user = Users.load(1);
 
-	console.log('1');
-	console.log(user.data);
+	user.then(function(err, res) {
+		console.log('qweoiruqweoi');
+		console.log(user);
+	});
 
 	// user.data.lname = 'wpeorwpeo';
 
-	console.log('2');
-	console.log(user);
+	// console.log('2');
+	// console.log(user);
 
-	user.save();
+	// user.save();
 
-	console.log('3');
-	console.log(user);
+	// console.log('3');
+	// console.log(user);
 });
 
 app.use(bodyParser.json());
@@ -112,32 +115,24 @@ var Users = {
 		if (!id) return this;
 		
 		var self = this;
-				promise = new Promise();
 
-		promise.then(function() {
-			connection.query("SELECT * FROM users WHERE id = '?'", id, function(err, row) {
-				if (err) throw err;
-				
-				if (!row) {
-					throw new Error('Can\'t find stock');
-				}
+		var promise = Promise.promisify(connection.query, connection)("SELECT * FROM users WHERE id = '?'", 1)
 
-				self.data = row[0];
-				self._isNew = false;
+		promise.then(function(rows) {
+			if (rows[0][0] !== undefined) {
+				self.data = rows[0][0];
+			}
+		});
+
+		promise.then(function(data) {
+			console.log("self");
+			console.log(self.data);
+			return promise.map(self, function() {
+				console.log('mapped');
 			});
 		});
 
-		promise.then({
-			fulfilledHandler: function() {
-				console.log('fulfilled');
-			},
-			errorHandler: function() {
-				console.log('error');
-			},
-			progressHandler: function() {
-				console.log('unfulfilled');
-			}
-		})
+		return promise;
 	},
 	setPassword: function(password) {
 		this.salt = crypto.randomBytes(16).toString('hex');
