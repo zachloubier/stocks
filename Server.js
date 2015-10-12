@@ -1,43 +1,18 @@
 var express = require("express");
 var mysql = require("mysql");
+var mongoose = require("mongoose");
 var app = express();
 var bodyParser = require('body-parser');
 var crypto = require('crypto');
 var Promise = require('bluebird');
 
-//Configure MySQL parameters
-var connection = mysql.createConnection({
-	host : "localhost",
-	user : "root",
-	password : "root",
-	database : "stocks"
-});
+// Models
+require('./models/Users');
+
+var User = mongoose.model('User');
 
 //Connecting to Database
-connection.connect(function(error){
-	if(error){
-		console.log("Problem with MySQL "+error);
-	} else {
-		console.log("\n\n\nConnected with Database\n\n\n");
-	}
-
-	var user = Users.load(1);
-
-	user.then(function(err, res) {
-		console.log('qweoiruqweoi');
-		console.log(user);
-	});
-
-	// user.data.lname = 'wpeorwpeo';
-
-	// console.log('2');
-	// console.log(user);
-
-	// user.save();
-
-	// console.log('3');
-	// console.log(user);
-});
+mongoose.connect('mongodb://localhost/stocks');
 
 app.use(bodyParser.json());
 
@@ -69,24 +44,33 @@ app.get('/', function(req, res) {
 
 // Custom stock param
 app.param('stock', function(req, res, next, symbol) {
-	connection.query("SELECT * FROM stocks WHERE symbol = '" + symbol + "'", function(err, row) {
-		if (err) throw err;
-		if (!row) {
-			return next(new Error('Can\'t find stock'));
-		}
+	// connection.query("SELECT * FROM stocks WHERE symbol = '" + symbol + "'", function(err, row) {
+	// 	if (err) throw err;
+	// 	if (!row) {
+	// 		return next(new Error('Can\'t find stock'));
+	// 	}
 		
-		req.stock = row[0];
-		return next();
-	});
+	// 	req.stock = row[0];
+	// 	return next();
+	// });
+
+	var user = User.findById(1);
+
+	console.log(user);
 })
 
 // Stock listing
 app.get('/stocks', function(req, res) {
-	connection.query("SELECT * from stocks", function(err, rows) {
+	User.find(function(err, users) {
 		if (err) throw err;
-		
-		res.json(rows);
+
+		res.json(users);
 	});
+	// connection.query("SELECT * from stocks", function(err, rows) {
+	// 	if (err) throw err;
+		
+	// 	res.json(rows);
+	// });
 });
 
 // Get single stock
@@ -97,70 +81,24 @@ app.get('/stocks/:stock', function(req, res) {
 // Create stock
 // @todo add data cleaning
 app.post('/stocks', function(req, res) {
-	// console.log(res);
-	connection.query("INSERT into stocks SET ?", req.body, function(err, rows) {
+	var user = new User({
+		fname: "zach",
+		lname: "loubier",
+		username: "zloubier",
+		password: "watson123",
+		salt: "salt"
+	});
+
+	user.save(function(err, user) {
 		if (err) throw err;
 
-		res.end("Inserted!");
-	})
+		res.json(user);
+	});
+
+	// console.log(res);
+	// connection.query("INSERT into stocks SET ?", req.body, function(err, rows) {
+	// 	if (err) throw err;
+
+	// 	res.end("Inserted!");
+	// })
 });
-
-/***** Models *****/
-
-// Models
-var Users = {
-	_isNew: true,
-	data: {},
-	load: function(id) {
-		if (!id) return this;
-		
-		var self = this;
-
-		var promise = Promise.promisify(connection.query, connection)("SELECT * FROM users WHERE id = '?'", 1)
-
-		promise.then(function(rows) {
-			if (rows[0][0] !== undefined) {
-				self.data = rows[0][0];
-			}
-		});
-
-		promise.then(function(data) {
-			console.log("self");
-			console.log(self.data);
-			return promise.map(self, function() {
-				console.log('mapped');
-			});
-		});
-
-		return promise;
-	},
-	setPassword: function(password) {
-		this.salt = crypto.randomBytes(16).toString('hex');
-
-		this.password = crypto.pbkdf2sync(password, this.data.salt, 1000, 64).toString('hex');
-	},
-	validPassword: function(password) {
-		var hash = crypto.pbkdf2sync(password, this.data.salt, 1000, 64).toString('hex');
-
-		return this.data.password === hash;
-	},
-	save: function() {
-		if (!this.data) return this;
-
-		if (this._isNew) {
-
-		} else {
-			var id = this.data.id;
-			this.data.id = undefined;
-			connection.query("UPDATE users SET ? WHERE id = ?", this.data, function(err, id) {
-				if (err) throw err;
-
-				if (!id) {
-					throw new Error('Can\'t save user');
-				}
-			});
-
-			return this;
-		}
-	}
-};
