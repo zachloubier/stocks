@@ -23,6 +23,9 @@ app.config(function($routeProvider) {
     //   }]
     // }
   })
+  .when('/users/new', {
+    controller: 'UsersController',
+  })
   .otherwise({
   	redirectTo: '/'
   });
