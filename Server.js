@@ -4,7 +4,6 @@ var passport = require("passport");
 var app = express();
 var bodyParser = require('body-parser');
 var crypto = require('crypto');
-var Promise = require('bluebird');
 
 // Models
 require('./models/Stocks');
@@ -44,6 +43,8 @@ app.listen(3000, function() {
 	console.log("It's Started on PORT 3000\n\n\n");
 });
 
+/***** Stock Routes *****/
+
 // Custom stock param
 app.param('stock', function(req, res, next, symbol) {
 	var query = Stock.findOne({'symbol': symbol}, function(err, doc) {
@@ -62,13 +63,13 @@ app.get('/stocks', function(req, res) {
 	Stock.find(function(err, stocks) {
 		if (err) throw err;
 
-		res.json(stocks);
+		return res.json(stocks);
 	});
 });
 
 // Get single stock
 app.get('/stocks/:stock', function(req, res) {
-	res.json(req.stock);
+	return res.json(req.stock);
 });
 
 // Create stock
@@ -80,6 +81,57 @@ app.post('/stocks', function(req, res) {
 	stock.save(function(err, stock) {
 		if (err) throw err;
 
-		res.json(stock);
+		return res.json(stock);
 	});
 });
+
+/***** User Routes *****/
+
+app.get('/users', function(req, res, next) {
+	User.find(function(err, users) {
+		if (err) throw err;
+
+		return res.json(users);
+	})
+});
+
+app.post('/register', function(req, res, next) {
+	req.body = {
+		username: 'user',
+		password: 'test'
+	};
+	if (!req.body.username || !req.body.password) {
+		return res.status(400).json({message: 'Please fill out all fields'});
+	}
+
+	var user = new User();
+
+	user.username = req.body.username;
+
+	user.setPassword(req.body.password);
+
+	user.save(function(err) {
+		if (err) return next(err);
+
+		return res.json({token: user.generateJWT()});
+	});
+});
+
+app.post('/login', function(req, res, next) {
+	if (!req.body.username || !req.body.password) {
+		return res.status(400).json({message: 'Please fill out all fields'});
+	}
+
+	passport.authenticate('local', function(err, user, info) {
+		if (err) throw err;
+
+		if (user) {
+			return res.json({token: user.generateJWT()});
+		} else {
+			return res.status(401).json(info);
+		}
+	})(req, res, next);
+})
+
+
+
