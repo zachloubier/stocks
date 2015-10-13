@@ -1,14 +1,17 @@
 var express = require("express");
-// var mysql = require("mysql");
 var mongoose = require("mongoose");
+var passport = require("passport");
 var app = express();
 var bodyParser = require('body-parser');
 var crypto = require('crypto');
 var Promise = require('bluebird');
 
 // Models
-require('./models/Users');
 require('./models/Stocks');
+require('./models/Users');
+
+// Passport
+require('./config/passport');
 
 var User = mongoose.model('User');
 var Stock = mongoose.model('Stock');
@@ -22,6 +25,8 @@ app.use(bodyParser.json());
 app.use(bodyParser({
 	extended: true
 }));
+
+app.use(passport.initialize());
 
 // Add headers
 app.use(function (req, res, next) {
