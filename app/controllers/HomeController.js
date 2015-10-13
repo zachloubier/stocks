@@ -20,9 +20,7 @@ app.controller('HomeController', ['$scope', '$http', 'stocks', function($scope, 
 		stocks.create(stock).success(function(data) {
 			console.log(data);
 			$scope.newId = data;
-			$scope.stocks.push(stock);
 		});
-
 
 		$scope.symbol = '';
 	};

@@ -3,9 +3,9 @@ var mongoose = require('mongoose');
 var StockSchema = new mongoose.Schema({
 	name: String,
 	symbol: String,
-	price: String,
-	open: String,
-	close: String
+	price: Number,
+	open: Number,
+	close: Number
 });
 
-mongoose.model('User', UserSchema);
+mongoose.model('Stock', StockSchema);

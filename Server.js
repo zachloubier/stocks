@@ -1,5 +1,5 @@
 var express = require("express");
-var mysql = require("mysql");
+// var mysql = require("mysql");
 var mongoose = require("mongoose");
 var app = express();
 var bodyParser = require('body-parser');
@@ -8,8 +8,10 @@ var Promise = require('bluebird');
 
 // Models
 require('./models/Users');
+require('./models/Stocks');
 
 var User = mongoose.model('User');
+var Stock = mongoose.model('Stock');
 
 //Connecting to Database
 mongoose.connect('mongodb://localhost/stocks');
@@ -23,13 +25,13 @@ app.use(bodyParser({
 
 // Add headers
 app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8000');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8000');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');    // Request headers you wish to allow
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Credentials', true);
 
-    // Pass to next layer of middleware
-    next();
+  // Pass to next layer of middleware
+  next();
 });
 
 // Start server on port 3000
@@ -37,40 +39,26 @@ app.listen(3000, function() {
 	console.log("It's Started on PORT 3000\n\n\n");
 });
 
+// Custom stock param
+app.param('stock', function(req, res, next, symbol) {
+	var query = Stock.findOne({'symbol': symbol}, function(err, doc) {
+		req.stock = doc;
+		return next();
+	});
+});
+
 // Home page
 app.get('/', function(req, res) {
 	res.sendfile('app/index.html');
 });
 
-// Custom stock param
-app.param('stock', function(req, res, next, symbol) {
-	// connection.query("SELECT * FROM stocks WHERE symbol = '" + symbol + "'", function(err, row) {
-	// 	if (err) throw err;
-	// 	if (!row) {
-	// 		return next(new Error('Can\'t find stock'));
-	// 	}
-		
-	// 	req.stock = row[0];
-	// 	return next();
-	// });
-
-	var user = User.findById(1);
-
-	console.log(user);
-})
-
 // Stock listing
 app.get('/stocks', function(req, res) {
-	User.find(function(err, users) {
+	Stock.find(function(err, stocks) {
 		if (err) throw err;
 
-		res.json(users);
+		res.json(stocks);
 	});
-	// connection.query("SELECT * from stocks", function(err, rows) {
-	// 	if (err) throw err;
-		
-	// 	res.json(rows);
-	// });
 });
 
 // Get single stock
@@ -81,24 +69,12 @@ app.get('/stocks/:stock', function(req, res) {
 // Create stock
 // @todo add data cleaning
 app.post('/stocks', function(req, res) {
-	var user = new User({
-		fname: "zach",
-		lname: "loubier",
-		username: "zloubier",
-		password: "watson123",
-		salt: "salt"
-	});
+	var data = req.body;
+	var stock = new Stock(data);
 
-	user.save(function(err, user) {
+	stock.save(function(err, stock) {
 		if (err) throw err;
 
-		res.json(user);
+		res.json(stock);
 	});
-
-	// console.log(res);
-	// connection.query("INSERT into stocks SET ?", req.body, function(err, rows) {
-	// 	if (err) throw err;
-
-	// 	res.end("Inserted!");
-	// })
 });
