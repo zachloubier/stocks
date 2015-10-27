@@ -4,6 +4,12 @@ var passport = require("passport");
 var app = express();
 var bodyParser = require('body-parser');
 var crypto = require('crypto');
+var jwt = require('express-jwt');
+
+var auth = jwt({
+	secret: 'SECRET',
+	userProperty: 'payload'
+});
 
 // Models
 require('./models/Stocks');
@@ -68,7 +74,7 @@ app.get('/stocks', function(req, res) {
 });
 
 // Get single stock
-app.get('/stocks/:stock', function(req, res) {
+app.get('/stocks/:stock', auth, function(req, res) {
 	return res.json(req.stock);
 });
 
@@ -96,18 +102,12 @@ app.get('/users', function(req, res, next) {
 });
 
 app.post('/register', function(req, res, next) {
-	req.body = {
-		username: 'user',
-		password: 'test'
-	};
 	if (!req.body.username || !req.body.password) {
 		return res.status(400).json({message: 'Please fill out all fields'});
 	}
 
 	var user = new User();
-
 	user.username = req.body.username;
-
 	user.setPassword(req.body.password);
 
 	user.save(function(err) {

@@ -23,8 +23,9 @@ app.config(function($routeProvider) {
     //   }]
     // }
   })
-  .when('/users/new', {
-    controller: 'UsersController',
+  .when('/register', {
+    controller: 'AuthController',
+    templateUrl: 'views/users/register.html'
   })
   .otherwise({
   	redirectTo: '/'
