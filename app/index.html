@@ -30,12 +30,18 @@
               </li>
             </ul>
             <section class="top-bar-section">
-              <ul class="right">
-                <li>
+              <ul class="right" ng-controller="NavController">
+                <li ng-show="isLoggedIn()">
+                  <a href="#/stocks">{{ currentUser() }}</a>
+                </li>
+                <li ng-hide="isLoggedIn()">
                   <a href="#/register">Create an Account</a>
                 </li>
-                <li>
-                  <a href="#/">Log In</a>
+                <li ng-hide="isLoggedIn()">
+                  <a href="#/login">Log In</a>
+                </li>
+                <li ng-show="isLoggedIn()">
+                  <a href="" ng-click="logOut()">Log Out</a>
                 </li>
               </ul>
             </section>
@@ -68,6 +74,7 @@
   <script src="controllers/HomeController.js"></script>
   <script src="controllers/StocksController.js"></script>
   <script src="controllers/AuthController.js"></script>
+  <script src="controllers/NavController.js"></script>
   
   <!-- Services -->
   <script src="services/stocks.js"></script>

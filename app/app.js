@@ -2,8 +2,9 @@
 
 // Declare app level module which depends on views, and components
 var app = angular.module('Stocks', ['ngRoute', 'ngResource']);
-
+// console.log(location);
 app.config(function($routeProvider) {
+  // console.log($location);
   $routeProvider.when('/', {
   	controller: 'HomeController',
   	templateUrl: 'views/home/home.html',
@@ -25,7 +26,33 @@ app.config(function($routeProvider) {
   })
   .when('/register', {
     controller: 'AuthController',
-    templateUrl: 'views/users/register.html'
+    templateUrl: 'views/users/register.html',
+    resolve: {
+      postPromise: ['auth', function(auth) {
+        if (auth.isLoggedIn()) {
+          window.location.replace('http://localhost:8000/app/index.html');
+        }
+      }]
+    }
+    // onEnter: ['$routeProvider', 'auth', function($routeProvider, auth) {
+    //   console.log('on enter');
+      // if (auth.isLoggedIn()) {
+      //   console.log('i am logged in');
+      // } else {
+      //   console.log('not logged in');
+      // }
+    // }]
+  })
+  .when('/login', {
+    controller: 'AuthController',
+    templateUrl: 'views/users/login.html',
+    resolve: {
+      postPromise: ['auth', function(auth) {
+        if (auth.isLoggedIn()) {
+          window.location.replace('http://localhost:8000/app/index.html');
+        }
+      }]
+    }
   })
   .otherwise({
   	redirectTo: '/'
