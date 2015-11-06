@@ -4,6 +4,21 @@
 var app = angular.module('Stocks', ['ngRoute', 'ngResource']);
 // console.log(location);
 app.config(function($routeProvider) {
+
+  var requireAuth = function() {
+    return {
+      load: function($q, $location, auth) {
+        var deferred = $q.defer();
+        deferred.resolve();
+
+        if (auth.isLoggedIn()) {
+          return deferred.promise;
+        } else {
+          return $location.path('/login');
+        }
+      }
+    }
+  }
   // console.log($location);
   $routeProvider.when('/', {
   	controller: 'HomeController',
@@ -17,6 +32,7 @@ app.config(function($routeProvider) {
   .when('/stocks/:symbol', {
   	controller: 'StocksController',
   	templateUrl: 'views/stocks/stock.html',
+    resolve: requireAuth()
     // resolve: {
     //   postPromise: ['$routeParams', 'stocks', function($routeParams, stocks) {
     //     console.log($routeParams);
