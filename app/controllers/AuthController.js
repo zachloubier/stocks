@@ -6,7 +6,7 @@ app.controller('AuthController', ['$scope', '$location', 'auth', function($scope
 			$scope.error = error;
 		}).then(function() {
 			$location.path('/');
-		})
+		});
 	};
 
 	$scope.login = function() {

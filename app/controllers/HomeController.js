@@ -10,11 +10,18 @@ app.controller('HomeController', ['$scope', '$http', 'stocks', 'auth', function(
 			return;
 		}
 
+		console.log(auth.currentUser());
+
 		var stock = {
 			symbol: $scope.symbol,
 			price: "12.12",
 			open: "23.12",
-			close: "45.43"
+			close: "45.43",
+			users: []
+		};
+
+		if ($scope.isLoggedIn()) {
+			stock.users.push(auth.currentUser()._id);
 		}
 
 		stocks.create(stock).success(function(data) {

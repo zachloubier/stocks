@@ -26,7 +26,7 @@ app.factory('auth', ['$http', '$window', function($http, $window) {
 			var token = auth.getToken();
 			var payload = JSON.parse($window.atob(token.split('.')[1]));
 
-			return payload.username;
+			return { _id: payload._id, username: payload.username };
 		}
 	};
 
@@ -37,7 +37,6 @@ app.factory('auth', ['$http', '$window', function($http, $window) {
 	};
 
 	auth.login = function(user) {
-		console.log(user);
 		return $http.post('http://localhost:3000/login', user).success(function(data) {
 			auth.saveToken(data.token);
 		});
