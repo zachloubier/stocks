@@ -1,6 +1,6 @@
-app.controller('HomeController', ['$scope', '$http', 'stocks', function($scope, $http, stocks) {
+app.controller('HomeController', ['$scope', '$http', 'stocks', 'auth', function($scope, $http, stocks, auth) {
 	$scope.stocks = stocks.stocks;
-
+	$scope.isLoggedIn = auth.isLoggedIn;
 	// stocks.getStocks().success(function(data) {
 	// 	$scope.stocks = data;
 	// });

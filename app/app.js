@@ -19,6 +19,23 @@ app.config(function($routeProvider) {
       }
     }
   }
+
+  var redirectLogin = function() {
+    return {
+      load: function($q, $location, auth) {
+        var deferred = $q.defer();
+        deferred.resolve();
+
+        if (auth.isLoggedIn()) {
+          return deferred.promise;
+        } else {
+          return $location.path('/');
+        }
+      }
+    }
+  }
+
+
   // console.log($location);
   $routeProvider.when('/', {
   	controller: 'HomeController',
@@ -33,12 +50,6 @@ app.config(function($routeProvider) {
   	controller: 'StocksController',
   	templateUrl: 'views/stocks/stock.html',
     resolve: requireAuth()
-    // resolve: {
-    //   postPromise: ['$routeParams', 'stocks', function($routeParams, stocks) {
-    //     console.log($routeParams);
-    //     return stocks.get($routeParams.symbol)
-    //   }]
-    // }
   })
   .when('/register', {
     controller: 'AuthController',
@@ -50,24 +61,24 @@ app.config(function($routeProvider) {
         }
       }]
     }
-    // onEnter: ['$routeProvider', 'auth', function($routeProvider, auth) {
-    //   console.log('on enter');
-      // if (auth.isLoggedIn()) {
-      //   console.log('i am logged in');
-      // } else {
-      //   console.log('not logged in');
-      // }
-    // }]
   })
   .when('/login', {
     controller: 'AuthController',
     templateUrl: 'views/users/login.html',
     resolve: {
-      postPromise: ['auth', function(auth) {
+      load: function($q, $location, auth) {
+        var deferred = $q.defer();
+        deferred.resolve();
+
         if (auth.isLoggedIn()) {
-          window.location.replace('http://localhost:8000/app/index.html');
+          return $location.path('/');
         }
-      }]
+      }
+      // postPromise: ['auth', function(auth) {
+      //   if (auth.isLoggedIn()) {
+      //     window.location.replace('http://localhost:8000/app/index.html');
+      //   }
+      // }]
     }
   })
   .otherwise({

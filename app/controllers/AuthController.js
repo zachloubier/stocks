@@ -2,8 +2,6 @@ app.controller('AuthController', ['$scope', '$location', 'auth', function($scope
 	$scope.user = {};
 
 	$scope.register = function() {
-		// console.log($scope.user);
-		console.log('register controller');
 		auth.register($scope.user).error(function(error) {
 			$scope.error = error;
 		}).then(function() {
@@ -12,7 +10,6 @@ app.controller('AuthController', ['$scope', '$location', 'auth', function($scope
 	};
 
 	$scope.login = function() {
-		console.log('login controller');
 		auth.login($scope.user).error(function(error) {
 			$scope.error = error;
 		}).then(function() {

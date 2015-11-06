@@ -7,7 +7,11 @@ var UserSchema = new mongoose.Schema({
 	lname: String,
 	username: String,
 	password: String,
-	salt: String
+	salt: String,
+	stocks: [{
+		type: mongoose.Schema.ObjectId,
+		ref: 'Stock'
+	}]
 });
 
 UserSchema.methods.setPassword = function(password) {

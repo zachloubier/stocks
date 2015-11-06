@@ -5,7 +5,11 @@ var StockSchema = new mongoose.Schema({
 	symbol: String,
 	price: Number,
 	open: Number,
-	close: Number
+	close: Number,
+	users: [{
+		type: mongoose.Schema.ObjectId,
+		ref: 'User'
+	}]
 });
 
 mongoose.model('Stock', StockSchema);

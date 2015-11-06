@@ -59,6 +59,14 @@ app.param('stock', function(req, res, next, symbol) {
 	});
 });
 
+// Custom user param
+app.param('user', function(req, res, next, username) {
+	var query = User.findOne({'username': username}, function(err, doc) {
+		req.user = doc;
+		return next();
+	});
+});
+
 // Home page
 app.get('/', function(req, res) {
 	res.sendfile('app/index.html');
@@ -74,7 +82,8 @@ app.get('/stocks', function(req, res) {
 });
 
 // Get single stock
-app.get('/stocks/:stock', auth, function(req, res) {
+app.get('/stocks/:stock', function(req, res) {
+	console.log(auth);
 	return res.json(req.stock);
 });
 
@@ -99,6 +108,10 @@ app.get('/users', function(req, res, next) {
 
 		return res.json(users);
 	})
+});
+
+app.get('/users/:user', function(req, res, next) {
+	return res.json(req.user);
 });
 
 app.post('/register', function(req, res, next) {

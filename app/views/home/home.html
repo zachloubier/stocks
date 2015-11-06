@@ -1,5 +1,5 @@
 <main ng-controller="HomeController">
-  <form ng-submit="addStock()">
+  <form ng-submit="addStock()" ng-show="isLoggedIn()">
     <div class="row collapse">
       <div class="small-8 column">
         <input type="text" name="symbol" placeholder="Symbol" ng-model="symbol" />

@@ -2,9 +2,7 @@ app.factory('auth', ['$http', '$window', function($http, $window) {
 	var auth = {};
 
 	auth.saveToken = function(token) {
-		console.log('save token factory');
 		$window.localStorage['stocks-token'] = token;
-		console.log($window.localStorage);
 	};
 
 	auth.getToken = function() {
@@ -39,7 +37,6 @@ app.factory('auth', ['$http', '$window', function($http, $window) {
 	};
 
 	auth.login = function(user) {
-		console.log('login service');
 		console.log(user);
 		return $http.post('http://localhost:3000/login', user).success(function(data) {
 			auth.saveToken(data.token);
@@ -47,7 +44,6 @@ app.factory('auth', ['$http', '$window', function($http, $window) {
 	};
 
 	auth.logout = function() {
-		console.log('logout factory');
 		$window.localStorage.removeItem('stocks-token');
 	};
 
