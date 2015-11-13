@@ -1,4 +1,4 @@
-app.controller('HomeController', ['$scope', '$http', 'stocks', 'auth', function($scope, $http, stocks, auth) {
+app.controller('HomeController', ['$scope', '$http', 'stocks', 'auth', 'yahoo', function($scope, $http, stocks, auth, yahoo) {
 	$scope.stocks = stocks.stocks;
 	$scope.isLoggedIn = auth.isLoggedIn;
 	// stocks.getStocks().success(function(data) {
@@ -10,24 +10,34 @@ app.controller('HomeController', ['$scope', '$http', 'stocks', 'auth', function(
 			return;
 		}
 
-		console.log(auth.currentUser());
+		// Get the stock data from Yahoo API
+		yahoo.get($scope.symbol).success(function(response) {
+			if (response.query.count > 0) {
+				var stockData = response.query.results.quote;
 
-		var stock = {
-			symbol: $scope.symbol,
-			price: "12.12",
-			open: "23.12",
-			close: "45.43",
-			users: []
-		};
+				console.log("FROM YAHOO:");
+				console.log(stockData);
 
-		if ($scope.isLoggedIn()) {
-			stock.users.push(auth.currentUser()._id);
-		}
+				var stock = {
+					name: stockData.Name,
+					symbol: stockData.Symbol.toUpperCase(),
+					price: stockData.Bid,
+					open: stockData.Open,
+					close: stockData.Close,
+					users: []
+				};
 
-		stocks.create(stock).success(function(data) {
-			console.log(data);
-			$scope.newId = data;
+				if ($scope.isLoggedIn()) {
+					stock.users.push(auth.currentUser()._id);
+				}
+
+				stocks.create(stock).success(function(data) {
+					$scope.newId = data;
+				});
+
+			}
 		});
+
 
 		$scope.symbol = '';
 	};
