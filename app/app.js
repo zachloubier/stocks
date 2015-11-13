@@ -18,7 +18,7 @@ app.config(function($routeProvider) {
         }
       }
     }
-  }
+  };
 
   var redirectLogin = function() {
     return {
@@ -27,13 +27,13 @@ app.config(function($routeProvider) {
         deferred.resolve();
 
         if (auth.isLoggedIn()) {
-          return deferred.promise;
-        } else {
           return $location.path('/');
+        } else {
+          return deferred.promise;
         }
       }
     }
-  }
+  };
 
 
   // console.log($location);
@@ -54,32 +54,12 @@ app.config(function($routeProvider) {
   .when('/register', {
     controller: 'AuthController',
     templateUrl: 'views/users/register.html',
-    resolve: {
-      postPromise: ['auth', function(auth) {
-        if (auth.isLoggedIn()) {
-          window.location.replace('http://localhost:8000/app/index.html');
-        }
-      }]
-    }
+    resolve: redirectLogin()
   })
   .when('/login', {
     controller: 'AuthController',
     templateUrl: 'views/users/login.html',
-    resolve: {
-      load: function($q, $location, auth) {
-        var deferred = $q.defer();
-        deferred.resolve();
-
-        if (auth.isLoggedIn()) {
-          return $location.path('/');
-        }
-      }
-      // postPromise: ['auth', function(auth) {
-      //   if (auth.isLoggedIn()) {
-      //     window.location.replace('http://localhost:8000/app/index.html');
-      //   }
-      // }]
-    }
+    resolve: redirectLogin()
   })
   .otherwise({
   	redirectTo: '/'
