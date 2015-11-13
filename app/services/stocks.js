@@ -16,7 +16,7 @@ app.factory('stocks', ['$http', function ($http) {
 
     get: function (symbol) {
       var self = this;
-      return $http.get('http://localhost:3000/stocks/' + symbol)
+      return $http.get('http://localhost:3000/stocks/' + symbol.toUpperCase())
         .success(function (data) {
           return data;
         });

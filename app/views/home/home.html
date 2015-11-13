@@ -3,6 +3,8 @@
     <div class="row collapse">
       <div class="small-8 column">
         <input type="text" name="symbol" placeholder="Symbol" ng-model="symbol" />
+        <small class="error" ng-show="error">{{ message }}</small>
+        <small class="success" ng-hide="error">{{ message }}</small>
       </div>
       <div class="small-4 column">
         <button type="submit" class="postfix expand button">Add Stock</button>

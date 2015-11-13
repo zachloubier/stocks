@@ -1,44 +1,51 @@
 app.controller('HomeController', ['$scope', '$http', 'stocks', 'auth', 'yahoo', function($scope, $http, stocks, auth, yahoo) {
 	$scope.stocks = stocks.stocks;
 	$scope.isLoggedIn = auth.isLoggedIn;
-	// stocks.getStocks().success(function(data) {
-	// 	$scope.stocks = data;
-	// });
+	$scope.error = false;
 
 	$scope.addStock = function() {
 		if (!$scope.symbol || $scope.symbol === '') {
 			return;
 		}
 
-		// Get the stock data from Yahoo API
-		yahoo.get($scope.symbol).success(function(response) {
-			if (response.query.count > 0) {
-				var stockData = response.query.results.quote;
+		// First check if the stock has already been added to the db
+		var getStockFromDb = stocks.get($scope.symbol);
 
-				console.log("FROM YAHOO:");
-				console.log(stockData);
+		getStockFromDb.success(function(dbStock) {
 
-				var stock = {
-					name: stockData.Name,
-					symbol: stockData.Symbol.toUpperCase(),
-					price: stockData.Bid,
-					open: stockData.Open,
-					close: stockData.Close,
-					users: []
-				};
+			// If there is not a stock already in the db, get it from the Yahoo API
+			if (dbStock == null) {
+				yahoo.get($scope.symbol).success(function(response) {
+					if (response.query.count > 0) {
+						var stockData = response.query.results.quote;
 
-				if ($scope.isLoggedIn()) {
-					stock.users.push(auth.currentUser()._id);
-				}
+						var stock = {
+							name: stockData.Name,
+							symbol: stockData.Symbol.toUpperCase(),
+							price: stockData.Bid,
+							open: stockData.Open,
+							close: stockData.Close,
+							users: []
+						};
 
-				stocks.create(stock).success(function(data) {
-					$scope.newId = data;
+						if ($scope.isLoggedIn()) {
+							stock.users.push(auth.currentUser()._id);
+						}
+
+						stocks.create(stock).success(function(data) {
+							$scope.newId = data;
+						});
+
+						$scope.message = 'Stock "' + $scope.symbol + '" was added!';
+						$scope.symbol = '';
+						$scope.error = false;
+					}
 				});
-
+			} else {
+				$scope.symbol = '';
+				$scope.error = true;
+				$scope.message = 'You\'ve already added that stock silly!';
 			}
 		});
-
-
-		$scope.symbol = '';
 	};
 }]);
