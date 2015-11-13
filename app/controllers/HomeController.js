@@ -2,6 +2,7 @@ app.controller('HomeController', ['$scope', '$http', 'stocks', 'auth', 'yahoo', 
 	$scope.stocks = stocks.stocks;
 	$scope.isLoggedIn = auth.isLoggedIn;
 	$scope.error = false;
+	$scope.success = false;
 
 	$scope.addStock = function() {
 		if (!$scope.symbol || $scope.symbol === '') {
@@ -39,11 +40,13 @@ app.controller('HomeController', ['$scope', '$http', 'stocks', 'auth', 'yahoo', 
 						$scope.message = 'Stock "' + $scope.symbol + '" was added!';
 						$scope.symbol = '';
 						$scope.error = false;
+						$scope.success = true;
 					}
 				});
 			} else {
 				$scope.symbol = '';
 				$scope.error = true;
+				$scope.success = false;
 				$scope.message = 'You\'ve already added that stock silly!';
 			}
 		});

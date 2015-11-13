@@ -6294,9 +6294,23 @@ ul {
 .inc {
   color: green; }
 
+form .success {
+  display: block;
+  font-size: 0.75rem;
+  font-style: italic;
+  font-weight: normal;
+  margin-bottom: 1rem;
+  margin-top: -1px;
+  padding: 0.375rem 0.5625rem 0.5625rem;
+  color: #FFFFFF;
+  background: #43AC6A !important; }
+
 #page {
   margin-top: 1.25rem;
   margin-bottom: 1.25rem; }
+
+#add-stock input, #add-stock button {
+  margin-bottom: 0; }
 
 .stock-list .stock {
   border-bottom: 1px dotted #78AF00;

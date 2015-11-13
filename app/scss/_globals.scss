@@ -19,3 +19,17 @@ ul {
 .inc {
 	color: green;
 }
+
+form {
+	.success {
+		display: block;
+		font-size: rem-calc(12);
+		font-style: italic;
+		font-weight: normal;
+		margin-bottom: rem-calc(16);
+		margin-top: -1px;
+		padding: rem-calc(6 9 9);
+		color: $white;
+		background: $success-color !important;
+	}
+}
