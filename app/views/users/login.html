@@ -1,9 +1,12 @@
 <div id="login-page" ng-controller="AuthController">
 	<h1>Log In</h1>
 
-	<form id="login-form" class="form user-form" ng-submit="login()">
-		<input type="text" name="username" ng-model="user.username"/>
-		<input type="password" name="password" ng-model="user.password"/>
+	<form id="loginForm" name="login-form" class="form user-form" ng-submit="login()">
+		<input type="text" name="username" ng-model="user.username" required/>
+		<input type="password" name="password" ng-model="user.password" required/>
 		<button type="submit" class="button">Log in</button>
 	</form>
+	<div ng-messages="loginForm.username.$error" role="alert">
+		<div ng-message="required">You did not enter a username</div>
+	</div>
 </div>

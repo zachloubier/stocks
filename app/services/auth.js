@@ -39,6 +39,8 @@ app.factory('auth', ['$http', '$window', function($http, $window) {
 	auth.login = function(user) {
 		return $http.post('http://localhost:3000/login', user).success(function(data) {
 			auth.saveToken(data.token);
+		}).error(function(data) {
+			console.log(data);
 		});
 	};
 

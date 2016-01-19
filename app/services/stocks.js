@@ -1,4 +1,4 @@
-app.factory('stocks', ['$http', function ($http) {
+app.factory('stocks', ['$http', 'auth', function ($http, auth) {
   return {
     stocks: [],
 

@@ -12,6 +12,8 @@ app.controller('AuthController', ['$scope', '$location', 'auth', function($scope
 	$scope.login = function() {
 		auth.login($scope.user).error(function(error) {
 			$scope.error = error;
+
+			console.log($scope);
 		}).then(function() {
 			$location.path('/');
 		});
